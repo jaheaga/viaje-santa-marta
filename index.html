@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏝️ Santa Marta 2026 - Irotama Bungalow</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --accent: #38bdf8;
+  --green: #4ade80;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --orange: #fb923c;
+  --purple: #a78bfa;
+  --teal: #2dd4bf;
+  --pink: #f472b6;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 0;
+}
+header {
+  background: linear-gradient(135deg, #0d9488 0%, #0f172a 60%, #1e1b4b 100%);
+  padding: 2.5rem 1rem;
+  text-align: center;
+  border-bottom: 3px solid var(--teal);
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: "🌊";
+  position: absolute;
+  font-size: 8rem;
+  opacity: 0.05;
+  top: -20px;
+  right: -20px;
+  transform: rotate(-15deg);
+}
+header::after {
+  content: "☀️";
+  position: absolute;
+  font-size: 6rem;
+  opacity: 0.05;
+  bottom: -30px;
+  left: -10px;
+}
+header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+header p { color: #94a3b8; font-size: 1.1rem; }
+.container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #334155;
+  transition: box-shadow 0.3s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(45, 212, 191, 0.06); }
+.card h2 {
+  color: var(--teal);
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Flight styles */
+.flight-option {
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  transition: border-color 0.2s;
+}
+.flight-option:hover { border-color: var(--teal); }
+.flight-option.recommended {
+  border-color: var(--teal);
+  background: rgba(45, 212, 191, 0.08);
+  position: relative;
+}
+.flight-option.recommended::before {
+  content: "★ RECOMENDADO";
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  background: var(--teal);
+  color: #0f172a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.flight-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.flight-time { font-size: 1.2rem; font-weight: 600; }
+.flight-detail { color: #94a3b8; font-size: 0.9rem; }
+.flight-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green);
+  white-space: nowrap;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.tag-wingo { background: #d97706; color: #1c1917; }
+.tag-latam { background: #dc2626; color: #fff; }
+.tag-avianca { background: #e11d48; color: #fff; }
+.tag-jetsmart { background: #7c3aed; color: #fff; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+}
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #334155;
+}
+th {
+  color: var(--teal);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+td { font-size: 0.95rem; }
+tr:hover td { background: rgba(45, 212, 191, 0.04); }
+
+.price-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--green);
+  text-align: center;
+  padding: 1rem;
+  background: rgba(74, 222, 128, 0.08);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+.price-sub {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* Plans grid */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.plan-card {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+.plan-card:hover { border-color: var(--teal); }
+.plan-card.picked {
+  border-color: var(--teal);
+  background: rgba(45, 212, 191, 0.06);
+  position: relative;
+}
+.plan-card.picked::before {
+  content: "✅ SELECCIONADO";
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  background: var(--green);
+  color: #0f172a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.plan-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--teal);
+}
+.plan-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+.plan-sub { font-size: 0.8rem; color: #94a3b8; }
+.plan-includes {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin-top: 0.5rem;
+}
+.plan-includes li {
+  list-style: none;
+  padding: 0.2rem 0;
+}
+.plan-includes li::before { content: "✅ "; }
+
+/* Checklist */
+.checklist li {
+  list-style: none;
+  padding: 0.4rem 0;
+  font-size: 0.95rem;
+}
+.checklist li::before { content: "☐ "; }
+.checklist li.done::before { content: "✅ "; }
+.checklist li.done { color: #94a3b8; text-decoration: line-through; }
+
+/* === ITINERARY STYLES === */
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #334155;
+}
+.day-header:first-of-type { margin-top: 0; }
+.day-badge {
+  background: var(--teal);
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.day-date {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+.day-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--yellow);
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  position: relative;
+}
+.timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 32px;
+  bottom: -2px;
+  width: 2px;
+  background: #334155;
+}
+.timeline-dot {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.timeline-dot.arrival { background: rgba(251, 191, 36, 0.2); }
+.timeline-dot.beach { background: rgba(45, 212, 191, 0.2); }
+.timeline-dot.food { background: rgba(251, 146, 60, 0.2); }
+.timeline-dot.activity { background: rgba(167, 139, 250, 0.2); }
+.timeline-dot.transport { background: rgba(56, 189, 248, 0.2); }
+.timeline-dot.night { background: rgba(244, 114, 182, 0.2); }
+.timeline-dot.departure { background: rgba(248, 113, 113, 0.2); }
+.timeline-dot.rest { background: rgba(148, 163, 184, 0.2); }
+
+.timeline-content {
+  flex: 1;
+  min-width: 0;
+}
+.timeline-time {
+  font-size: 0.8rem;
+  color: var(--teal);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.timeline-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0.1rem 0 0.2rem;
+}
+.timeline-desc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+.timeline-desc strong { color: #cbd5e1; }
+
+/* Card for each day summary */
+.day-summary {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.day-summary-date {
+  font-weight: 600;
+  color: var(--yellow);
+}
+.day-summary-vibe {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+.day-summary-highlight {
+  font-size: 0.85rem;
+  color: var(--pink);
+}
+.weather-badge {
+  display: inline-block;
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--yellow);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+/* Tip box */
+.tip-box {
+  background: rgba(45, 212, 191, 0.06);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.tip-box-icon { font-size: 1.1rem; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  border-top: 1px solid #334155;
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header h1 { font-size: 1.5rem; }
+  .flight-row { flex-direction: column; align-items: flex-start; }
+  .timeline-item { gap: 0.75rem; }
+}
+
+/* Activity tags */
+.activity-tag {
+  display: inline-block;
+  background: rgba(45, 212, 191, 0.1);
+  color: var(--teal);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  margin-right: 3px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏝️ Santa Marta — Irotama Bungalow</h1>
+  <p>7 — 9 de Agosto 2026 · Jaime & Marita · Vuelo + Hotel</p>
+</header>
+
+<div class="container">
+
+  <!-- 🚀 RESUMEN RÁPIDO -->
+  <div class="card" style="text-align:center;">
+    <h2 style="justify-content:center;">🚀 Resumen del Viaje</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin-top:0.5rem;">
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-size:1.5rem;">📅</div>
+        <div style="font-size:0.85rem;color:var(--teal);font-weight:600;">7-9 Ago</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">3 días · 2 noches</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-size:1.5rem;">✈️</div>
+        <div style="font-size:0.85rem;color:var(--teal);font-weight:600;">Wingo → LATAM</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">Con equipaje de mano</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-size:1.5rem;">🏡</div>
+        <div style="font-size:0.85rem;color:var(--teal);font-weight:600;">Bungalow Full</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">Todo incluido</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-size:1.5rem;">💰</div>
+        <div style="font-size:0.85rem;color:var(--teal);font-weight:600;">$4.127.434</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">~$970 USD</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ITINERARIO DETALLADO ===== -->
+  <div class="card">
+    <h2>⏰ Itinerario — Día por Día</h2>
+    <p style="color:#94a3b8;margin-bottom:1rem;">🌡️ Clima estimado: 30-33°C · Aguardar una brisa del mar · Probabilidad de lluvia baja en agosto</p>
+
+    <!-- ===== VIERNES 7 ===== -->
+    <div class="day-header">
+      <span class="day-badge">DÍA 1</span>
+      <span class="day-title">Llegada 🌊</span>
+      <span class="day-date">Viernes 7 de Agosto</span>
+      <span class="weather-badge">☀️ 32°C / 25°C</span>
+    </div>
+
+    <div class="day-summary">
+      <div>
+        <div class="day-summary-date">🏁 Llegada + Instalación</div>
+        <div class="day-summary-vibe">Vibe: tempraneros, aterrizan 9 AM, día completo por delante 🎯</div>
+      </div>
+      <div class="day-summary-highlight">🌟 Desayuno en Bogotá antes de salir</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot transport">🛩️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">4:30 AM — Despertar</div>
+        <div class="timeline-title">Alistarse para el aeropuerto</div>
+        <div class="timeline-desc">Check-in online Wingo desde el día anterior. Solo llevar equipaje de mano. Llegar al aeropuerto 1.5h antes.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot arrival">🛩️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:25 AM → 9:00 AM</div>
+        <div class="timeline-title">✈️ Vuelo BOG → SMR — Wingo</div>
+        <div class="timeline-desc">Nonstop · 1h 35m. Llevar chaqueta ligera para el avión. Ventanilla izquierda para ver la Sierra Nevada al aproximarse 🏔️</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot transport">🚐</div>
+      <div class="timeline-content">
+        <div class="timeline-time">9:00 AM → ~9:30 AM</div>
+        <div class="timeline-title">Traslado al Irotama (incluido)</div>
+        <div class="timeline-desc">El hotel envía transporte al aeropuerto. Confirmar a la salida. Solo ~15 min del aeropuerto Simón Bolívar al hotel.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot rest">🏡</div>
+      <div class="timeline-content">
+        <div class="timeline-time">~10:00 AM</div>
+        <div class="timeline-title">Check-in en Irotama</div>
+        <div class="timeline-desc">Si el bungalow no está listo (check-in oficial es 3 PM), dejan el equipaje en recepción y arrancan directo a la playa. El hotel les presta toallas y pueden usar las instalaciones. <strong>📍 Bungalow estándar — zona tranquila cerca a la piscina.</strong></div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot beach">🏖️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">10:00 AM — 12:30 PM</div>
+        <div class="timeline-title">Playa Irotama 🌊</div>
+        <div class="timeline-desc">La playa del hotel es privada, con palapas y hamacas. Mar tranquilo en esta zona. <strong>Protip:</strong> agarrar puesto cerca de la palapa con sombra. El agua está perfecta en agosto.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot food">🥗</div>
+      <div class="timeline-content">
+        <div class="timeline-time">12:30 PM — 2:00 PM</div>
+        <div class="timeline-title">Almuerzo en Irotama</div>
+        <div class="timeline-desc">Buffet todo incluido. Platos típicos de la costa: pescado frito, arroz con coco, patacones. Aprovechar el open bar con jugos naturales y limonada 🍹</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot rest">😎</div>
+      <div class="timeline-content">
+        <div class="timeline-time">2:00 PM — 3:30 PM</div>
+        <div class="timeline-title">Siesta / Bungalow</div>
+        <div class="timeline-desc">A estas horas el sol está más fuerte. Ideal: descansar en el bungalow con aire acondicionado. El cuarto debería estar listo ya.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot activity">🏊</div>
+      <div class="timeline-content">
+        <div class="timeline-time">3:30 PM — 5:30 PM</div>
+        <div class="timeline-title">Piscina + Snacks</div>
+        <div class="timeline-desc">Piscina del hotel. Hay snacks AM/PM incluidos. Caminata por la orilla al atardecer. <span class="activity-tag">📸 Fotos</span></div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot activity">🌅</div>
+      <div class="timeline-content">
+        <div class="timeline-time">5:30 PM — 6:30 PM</div>
+        <div class="timeline-title">Atardecer en la playa</div>
+        <div class="timeline-desc">El atardecer en el Rodadero es 🔥. Caminata por la orilla, fotos del sol poniéndose sobre el mar. Insta-worthy moment 📸</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot food">🍽️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:00 PM — 9:00 PM</div>
+        <div class="timeline-title">Cena — Opción Libre</div>
+        <div class="timeline-desc">
+          <strong>Opción A (en Irotama):</strong> Cena del todo incluido. Cómodo, sin mover el carro.<br>
+          <strong>Opción B (fuera):</strong> Salir a cenar al Rodadero. Recomendado: <strong>La Brisa Loca</strong> (parrilla marina) o <strong>Cevichería El Rodadero</strong>. En uber/taxi son 5-10 min del hotel. <strong>💡 Combínenlo — cenen en Irotama o salgan, da igual, el plan full lo cubre igual.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot night">🌙</div>
+      <div class="timeline-content">
+        <div class="timeline-time">9:00 PM — 10:30 PM</div>
+        <div class="timeline-title">Noche en Irotama</div>
+        <div class="timeline-desc">Caminata nocturna por la playa, cocktail en el bar del hotel, o simplemente descansar en el bungalow viendo algo en el cel/tablet. No hay mucho ruido nocturno — es un hotel familiar, tranquilo.</div>
+      </div>
+    </div>
+
+    <!-- ===== SÁBADO 8 ===== -->
+    <div class="day-header">
+      <span class="day-badge">DÍA 2</span>
+      <span class="day-title">Exploración 🏔️</span>
+      <span class="day-date">Sábado 8 de Agosto</span>
+      <span class="weather-badge">☀️ 33°C / 26°C</span>
+    </div>
+
+    <div class="day-summary">
+      <div>
+        <div class="day-summary-date">🏁 Día completo de exploración</div>
+        <div class="day-summary-vibe">Vibe: aventura + playa + ciudad colonial 🎯</div>
+      </div>
+      <div class="day-summary-highlight">🌟 Dos rutas posibles — decidan la noche anterior</div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-box-icon">💡</span>
+      <div>
+        <strong>Ruta A: Centro Histórico + Taganga</strong> — City tour cultural, almuerzo en Taganga, regreso a Irotama a la tarde. Ideal si quieren conocer la ciudad.<br>
+        <strong>Ruta B: Playa del hotel + Rodadero</strong> — Full relax. Desayuno tardío, playa todo el día, tarde en el Rodadero. Ideal si solo quieren arena y mar.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot rest">☕</div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:30 AM — 9:00 AM</div>
+        <div class="timeline-title">Desayuno en Irotama</div>
+        <div class="timeline-desc">Buffet de desayuno — frutas tropicales, huevos al gusto, arepas, café colombiano ☕. <strong>No saltarse el jugo de maracuyá.</strong></div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot activity">🏛️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">9:00 AM — 11:30 AM</div>
+        <div class="timeline-title">RUTA A: Centro Histórico de Santa Marta</div>
+        <div class="timeline-desc">
+          <strong>📍 Recorrido:</strong> Catedral de Santa Marta (la más antigua de Colombia) → Casa de la Aduana → Quinta de San Pedro Alejandrino (donde murió Simón Bolívar) → Malecón de la Bahía 🏛️<br>
+          <strong>🚗</strong> 15 min en taxi/uber desde Irotama (~$15-20k COP)<br>
+          <span class="activity-tag">Cultura</span>
+          <span class="activity-tag">Historia</span>
+          <span class="activity-tag">Fotos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot activity">🎣</div>
+      <div class="timeline-content">
+        <div class="timeline-time">11:30 AM — 1:00 PM</div>
+        <div class="timeline-title">RUTA A (cont.): Taganga 🐟</div>
+        <div class="timeline-desc">
+          De Santa Marta a Taganga son 10 min en taxi. Pueblo de pescadores, bahía espectacular. Almuerzo en <strong>Taganga</strong>: ceviche, pescado frito, arroz de coco. <strong>Restaurante recomendado: Babaganoush</strong> o <strong>La Casa de las Dos Palmas</strong> 🦐<br>
+          <span class="activity-tag">Mariscos</span>
+          <span class="activity-tag">Vista</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot beach">🏖️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">1:00 PM — 5:00 PM</div>
+        <div class="timeline-title">Alternativa RUTA B: Playa Irotama + Rodadero</div>
+        <div class="timeline-desc">
+          Si prefieren full relax: después del desayuno se quedan en Irotama. Playa y piscina hasta el almuerzo. Almuerzan en el hotel (1-2 PM). Luego caminan al <strong>Rodadero</strong> desde el hotel (queda pegadito). Comprar artesanías, helado en la plazoleta, o sentarse en un kiosko de la playa.<br>
+          <span class="activity-tag">Relax</span>
+          <span class="activity-tag">Compras</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot rest">💤</div>
+      <div class="timeline-content">
+        <div class="timeline-time">2:00 PM — 4:00 PM</div>
+        <div class="timeline-title">Siesta post-almuerzo</div>
+        <div class="timeline-desc">El clásico — bajó la comida, subió el calor, toca descansito en el bungalow con AC 🥶</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot beach">🏊</div>
+      <div class="timeline-content">
+        <div class="timeline-time">4:00 PM — 6:00 PM</div>
+        <div class="timeline-title">Piscina + Cócteles 🍹</div>
+        <div class="timeline-desc">Última tarde de pool time. Open bar: pedir algo tropical (piña colada, mojito, caipiriña). Snacks de por medio. Fotos con los atardeceres.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot food">🍽️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:00 PM — 9:00 PM</div>
+        <div class="timeline-title">Cena de despedida</div>
+        <div class="timeline-desc">
+          <strong>En Irotama:</strong> Última cena incluida. Aprovechar.<br>
+          <strong>O fuera:</strong> Salir a cenar a <strong>Donde Chucho</strong> en el Rodadero (mariscos, buena carta de vinos) o <strong>Restaurante Lamás</strong> (cocina fusión, frente al mar). Reserva recomendada para sábado. 🍷
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot night">🌙</div>
+      <div class="timeline-content">
+        <div class="timeline-time">9:00 PM — en adelante</div>
+        <div class="timeline-title">Última noche en el bungalow</div>
+        <div class="timeline-desc">Caminata por la playa de noche (con linterna del cel — cuidado con cangrejos 🦀). Cerrar el bungalow, alistar maletas. El despertador suena temprano ⏰</div>
+      </div>
+    </div>
+
+    <!-- ===== DOMINGO 9 ===== -->
+    <div class="day-header">
+      <span class="day-badge">DÍA 3</span>
+      <span class="day-title">Regreso 🏁</span>
+      <span class="day-date">Domingo 9 de Agosto</span>
+      <span class="weather-badge">☀️ 31°C / 24°C</span>
+    </div>
+
+    <div class="day-summary">
+      <div>
+        <div class="day-summary-date">🏁 Madrugada — vuelo 7:05 AM</div>
+        <div class="day-summary-vibe">Vibe: tempranero pero llegando a Bogotá antes de las 9 AM 🎯</div>
+      </div>
+      <div class="day-summary-highlight">🌟 En Bogotá a las 8:35 AM — domingo completo en casa</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot rest">⏰</div>
+      <div class="timeline-content">
+        <div class="timeline-time">5:00 AM</div>
+        <div class="timeline-title">Despertar — Check-out</div>
+        <div class="timeline-desc">Levantarse, lavada de cara rápida, revisar el bungalow que no quede nada. Hacer check-out en recepción. <strong>Tips:</strong> dejar propina para el servicio de habitaciones si aplica. Llevar algo de comer para el aeropuerto (snacks del hotel si alcanzaron).</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot transport">🚐</div>
+      <div class="timeline-content">
+        <div class="timeline-time">5:30 AM — 5:45 AM</div>
+        <div class="timeline-title">Traslado al aeropuerto</div>
+        <div class="timeline-desc">El hotel coordina el traslado. Son ~15 min al aeropuerto Simón Bolívar. Llegan con tiempo de sobra (1h 20m antes del vuelo).</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot departure">🛩️</div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:05 AM → 8:35 AM</div>
+        <div class="timeline-title">✈️ Vuelo SMR → BOG — LATAM</div>
+        <div class="timeline-desc">Nonstop · 1h 30m. Trayecto directo. Equipaje de mano incluido. Café en el aeropuerto Simón Bolívar antes de abordar ☕</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot arrival">🏁</div>
+      <div class="timeline-content">
+        <div class="timeline-time">8:35 AM</div>
+        <div class="timeline-title">Llegada a Bogotá</div>
+        <div class="timeline-desc">Aterrizan en el El Dorado. En casa antes de las 10 AM con tiempo de descansar el resto del domingo. ¡Viaje cumplido! ✅🏝️</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ✈️ VUELOS -->
+  <div class="card">
+    <h2>✈️ Vuelos — Ida y Vuelta</h2>
+    <p style="color:#94a3b8;margin-bottom:1rem;">Precios directos de Google Flights · 7 Jun 2026 · 1 persona</p>
+
+    <h3 style="color:var(--yellow);font-size:1rem;margin-bottom:0.5rem;">🚀 Ida — BOG → SMR · Viernes 7 Ago</h3>
+
+    <div class="flight-option recommended">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">7:25 AM → 9:00 AM</div>
+          <div class="flight-detail"><span class="tag tag-wingo">Wingo</span> Nonstop · 1h 35m</div>
+        </div>
+        <div class="flight-price">$432.317</div>
+      </div>
+    </div>
+
+    <div class="flight-option">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">11:25 AM → 1:04 PM</div>
+          <div class="flight-detail"><span class="tag tag-jetsmart">JetSMART</span> Nonstop · 1h 39m</div>
+        </div>
+        <div class="flight-price">$454.720</div>
+      </div>
+    </div>
+
+    <div class="flight-option">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">6:15 PM → 7:50 PM</div>
+          <div class="flight-detail"><span class="tag tag-wingo">Wingo</span> Nonstop · 1h 35m · <span style="color:var(--green)">Más barato</span></div>
+        </div>
+        <div class="flight-price">$273.651</div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--yellow);font-size:1rem;margin:1rem 0 0.5rem;">↩️ Vuelta — SMR → BOG · Domingo 9 Ago</h3>
+
+    <div class="flight-option recommended">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">7:05 AM → 8:35 AM</div>
+          <div class="flight-detail"><span class="tag tag-latam">LATAM</span> Nonstop · 1h 30m · Equipaje de mano ✅</div>
+        </div>
+        <div class="flight-price">$417.400</div>
+      </div>
+    </div>
+
+    <div class="flight-option">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">7:35 AM → 9:05 AM</div>
+          <div class="flight-detail"><span class="tag tag-jetsmart">JetSMART</span> Nonstop · 1h 30m · <span style="color:var(--green)">Más barato</span></div>
+        </div>
+        <div class="flight-price">$264.720</div>
+      </div>
+    </div>
+
+    <div class="flight-option">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">9:36 AM → 11:05 AM</div>
+          <div class="flight-detail"><span class="tag tag-wingo">Wingo</span> Nonstop · 1h 29m</div>
+        </div>
+        <div class="flight-price">$433.317</div>
+      </div>
+    </div>
+
+    <div class="flight-option">
+      <div class="flight-row">
+        <div>
+          <div class="flight-time">10:10 PM → 11:40 PM</div>
+          <div class="flight-detail"><span class="tag tag-avianca">Avianca</span> Nonstop · 1h 30m</div>
+        </div>
+        <div class="flight-price">$451.910</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🏨 HOTEL -->
+  <div class="card">
+    <h2>🏨 Irotama Resort — Planes</h2>
+    <p style="color:#94a3b8;margin-bottom:1rem;">Precios por persona · Todos incluyen desayuno + almuerzo + cena + open bar + snacks + traslados aeropuerto</p>
+
+    <div class="plan-grid">
+      <div class="plan-card picked">
+        <div class="plan-name">🏡 Full Bungalow Estándar</div>
+        <div class="plan-price">$1.214.000</div>
+        <div class="plan-sub">por persona · 2 noches</div>
+        <ul class="plan-includes">
+          <li>Bungalow privado</li>
+          <li>Régimen todo incluido</li>
+          <li>Traslados aeropuerto</li>
+          <li>Actividades recreativas</li>
+        </ul>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">🌊 Full Lago</div>
+        <div class="plan-price">$1.242.000</div>
+        <div class="plan-sub">por persona · 2 noches</div>
+        <ul class="plan-includes">
+          <li>Habitación vista lago</li>
+          <li>Régimen todo incluido</li>
+          <li>Traslados aeropuerto</li>
+          <li>Actividades recreativas</li>
+        </ul>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">🌟 Full Sol</div>
+        <div class="plan-price">$2.599.000</div>
+        <div class="plan-sub">por persona · 2 noches</div>
+        <ul class="plan-includes">
+          <li>Habitación premium</li>
+          <li>Régimen todo incluido</li>
+          <li>Traslados aeropuerto</li>
+          <li>Actividades recreativas</li>
+        </ul>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">🌴 Full Mar</div>
+        <div class="plan-price">$2.668.000</div>
+        <div class="plan-sub">por persona · 2 noches</div>
+        <ul class="plan-includes">
+          <li>Habitación frente al mar</li>
+          <li>Régimen todo incluido</li>
+          <li>Traslados aeropuerto</li>
+          <li>Actividades recreativas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔗 MAPA Y ENLACES -->
+  <div class="card">
+    <h2>🗺️ Mapas y Enlaces Útiles</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;">
+      <a href="https://maps.google.com/?q=Irotama+Resort+Santa+Marta" target="_blank" style="display:block;background:rgba(15,23,42,0.5);padding:1rem;border-radius:8px;border:1px solid #334155;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='#334155'">
+        <div style="font-size:2rem;">📍</div>
+        <div style="font-size:0.9rem;font-weight:600;">Irotama Resort</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">Km 14 vía Santa Marta - Ciénaga</div>
+      </a>
+      <a href="https://www.irotama.com" target="_blank" style="display:block;background:rgba(15,23,42,0.5);padding:1rem;border-radius:8px;border:1px solid #334155;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='#334155'">
+        <div style="font-size:2rem;">🌐</div>
+        <div style="font-size:0.9rem;font-weight:600;">Irotama.com</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">Web oficial del hotel</div>
+      </a>
+      <a href="https://www.google.com/travel/flights?q=BOG+to+SMR+2026-08-07" target="_blank" style="display:block;background:rgba(15,23,42,0.5);padding:1rem;border-radius:8px;border:1px solid #334155;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='#334155'">
+        <div style="font-size:2rem;">✈️</div>
+        <div style="font-size:0.9rem;font-weight:600;">Google Flights</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">Ver precios actualizados</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 💰 PRESUPUESTO -->
+  <div class="card">
+    <h2>💰 Presupuesto Total — 2 Personas</h2>
+    <table>
+      <tr>
+        <th>Concepto</th>
+        <th style="text-align:right">COP</th>
+        <th style="text-align:right">USD ~</th>
+      </tr>
+      <tr>
+        <td>✈️ Ida: Wingo 7:25 AM × 2</td>
+        <td style="text-align:right">$864.634</td>
+        <td style="text-align:right;color:#94a3b8;">$203</td>
+      </tr>
+      <tr>
+        <td>✈️ Vuelta: LATAM 7:05 AM × 2</td>
+        <td style="text-align:right">$834.800</td>
+        <td style="text-align:right;color:#94a3b8;">$196</td>
+      </tr>
+      <tr style="border-top:2px solid var(--teal);">
+        <td><strong>Subtotal vuelos</strong></td>
+        <td style="text-align:right"><strong>$1.699.434</strong></td>
+        <td style="text-align:right;color:#94a3b8;">~$400</td>
+      </tr>
+      <tr>
+        <td>🏨 Full Bungalow × 2 (2 noches)</td>
+        <td style="text-align:right">$2.428.000</td>
+        <td style="text-align:right;color:#94a3b8;">$571</td>
+      </tr>
+    </table>
+    <div class="price-total">$4.127.434</div>
+    <div class="price-sub">≈ $970 USD · $2.063.717 por persona</div>
+  </div>
+
+  <!-- 📋 CHECKLIST -->
+  <div class="card">
+    <h2>📋 Checklist</h2>
+    <ul class="checklist">
+      <li class="done">Definir fechas: 7-9 Ago 2026</li>
+      <li class="done">Elegir hotel: Irotama Full Bungalow</li>
+      <li class="done">Vuelo ida: Wingo 7:25 AM BOG→SMR</li>
+      <li class="done">Vuelo vuelta: LATAM 7:05 AM SMR→BOG</li>
+      <li>Reservar hotel Irotama — Bungalow</li>
+      <li>Comprar tiquetes Wingo ida</li>
+      <li>Comprar tiquetes LATAM vuelta</li>
+      <li>Check-in online 48h antes</li>
+      <li>Empacar: ropa de baño, bloqueador, repelente, sandalias, canguro 📦</li>
+    </ul>
+  </div>
+
+  <!-- 📦 EMPAQUE -->
+  <div class="card">
+    <h2>🎒 Lista de Empaque</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;">
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:0.3rem;">👕 Ropa</div>
+        <ul style="font-size:0.85rem;color:#94a3b8;list-style:none;padding:0;">
+          <li>✅ 2 mudas ropa ligera</li>
+          <li>✅ 2 trajes de baño</li>
+          <li>✅ 1 chaqueta ligera</li>
+          <li>✅ Sandalias / crocs</li>
+          <li>✅ Tenis (opcional)</li>
+        </ul>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:0.3rem;">🧴 Protección</div>
+        <ul style="font-size:0.85rem;color:#94a3b8;list-style:none;padding:0;">
+          <li>✅ Bloqueador solar SPF50+</li>
+          <li>✅ Repelente de insectos</li>
+          <li>✅ Gorra / sombrero</li>
+          <li>✅ Gafas de sol</li>
+          <li>✅ After-sun / aloe vera</li>
+        </ul>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:0.3rem;">📱 Accesorios</div>
+        <ul style="font-size:0.85rem;color:#94a3b8;list-style:none;padding:0;">
+          <li>✅ Cargadores + banco de energía</li>
+          <li>✅ Bolsa impermeable para cel</li>
+          <li>✅ Audífonos (avión)</li>
+          <li>✅ Canguro / riñonera</li>
+          <li>✅ Cámara / GoPro (opcional)</li>
+        </ul>
+      </div>
+      <div style="background:rgba(15,23,42,0.5);padding:0.75rem;border-radius:8px;border:1px solid #334155;">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:0.3rem;">📄 Documentos</div>
+        <ul style="font-size:0.85rem;color:#94a3b8;list-style:none;padding:0;">
+          <li>✅ Cédulas</li>
+          <li>✅ Tiquetes (digital)</li>
+          <li>✅ Confirmación hotel (digital)</li>
+          <li>✅ Tarjetas / efectivo</li>
+          <li>✅ Seguro de viaje (si aplica)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>🏝️ Santa Marta — Irotama Bungalow · 7-9 Ago 2026 · Jaime & Marita</p>
+  <p>Precios actualizados desde Google Flights e irotama.com · 7 Jun 2026</p>
+  <p style="margin-top:0.5rem;">Publicado en GitHub Pages · <a href="https://github.com/jaheaga/viaje-santa-marta" style="color:var(--teal);">Ver en GitHub</a></p>
+</div>
+
+</body>
+</html>
